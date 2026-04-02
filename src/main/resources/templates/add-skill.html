@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Add Skill</title>
+</head>
+<body>
+
+<h2>Add Skill</h2>
+
+<form action="/skills/add" method="post">
+
+    Skill Name: <input type="text" name="skillName"><br><br>
+
+    <button type="submit">Add Skill</button>
+
+</form>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container">
+        <a class="navbar-brand" href="/">Skill Barter</a>
+
+        <div>
+            <a href="/dashboard" class="btn btn-outline-light me-2">Dashboard</a>
+            <a href="/add-skill" class="btn btn-outline-success me-2">Add Skill</a>
+            <a href="/view-skills" class="btn btn-outline-primary me-2">View Skills</a>
+            <a href="/logout" class="btn btn-outline-danger">Logout</a>
+        </div>
+    </div>
+</nav>
+<div class="container mt-5">
+
+    <div class="card shadow p-4">
+        <h3>Add Skill</h3>
+
+        <form action="/save-skill" method="post">
+
+            <input type="text" name="skillName" class="form-control mb-3" placeholder="Enter Skill">
+
+            <button class="btn btn-success">Add Skill</button>
+
+        </form>
+    </div>
+
+</div>
+
+</body>
+</html>
