@@ -9,26 +9,78 @@
     <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
+
 <body class="bg-light">
 
+<!-- ✅ NAVBAR -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container">
+
+        <a class="navbar-brand" href="/">SkillingHub</a>
+
+        <div class="d-flex align-items-center">
+
+            <!-- Profile -->
+            <a href="/profile" class="btn btn-outline-info me-2">Profile</a>
+
+            <!-- Logout -->
+            <a href="/logout" class="btn btn-outline-danger">Logout</a>
+
+        </div>
+    </div>
+</nav>
+
+<!-- ✅ MAIN CONTENT -->
 <div class="container mt-5">
 
     <h2 class="text-center mb-4">Dashboard</h2>
-    <h4 class="text-end">
-    Welcome, <span th:text="${username}"></span> 👋
-</h4>
 
-    <!-- Navigation -->
+    <!-- ✅ USER INFO -->
+    <div class="card p-3 mb-3">
+        <h5>Welcome, <span th:text="${user.name}"></span> 👋</h5>
+
+        <p>Credits: 
+            <span class="badge bg-success" th:text="${user.credits}"></span>
+        </p>
+
+        <p>Trust Score: 
+            <span class="badge bg-primary" th:text="${user.trustScore}"></span>
+        </p>
+    </div>
+
+    <!-- 🔔 ✅ NOTIFICATIONS -->
+    <div class="card p-3 mb-3">
+        <h5>
+            Notifications 🔔 
+            <span class="badge bg-danger" th:text="${notifications.size()}"></span>
+        </h5>
+
+        <ul class="list-group">
+            <li class="list-group-item"
+                th:each="n : ${notifications}">
+                <span th:text="${n.message}"></span>
+            </li>
+        </ul>
+    </div>
+
+    <!-- ✅ ACTION BUTTONS -->
     <div class="text-center mb-4">
         <a href="/add-skill" class="btn btn-success">Add Skill</a>
         <a href="/view-skills" class="btn btn-primary">View Skills</a>
         <a href="/send-request" class="btn btn-warning">Send Request</a>
-        <a href="/logout" class="btn btn-danger">Logout</a>
+        <a href="/view-requests" class="btn btn-info">View Requests</a>
     </div>
 
+    <!-- ✅ STATS -->
+    <div class="card p-3 mb-4 text-center">
+        <p>Total Skills: <span th:text="${skillCount}"></span></p>
+        <p>Total Users: <span th:text="${userCount}"></span></p>
+    </div>
+
+    <!-- ✅ CHARTS -->
     <div class="row">
 
-        <!-- Chart 1 -->
+        <!-- Skills Chart -->
         <div class="col-md-6">
             <div class="card shadow">
                 <div class="card-body">
@@ -37,13 +89,8 @@
                 </div>
             </div>
         </div>
-        <div class="container mt-4">
-    <div class="card shadow p-4">
-    <h5>Welcome to Dashboard</h5>
-</div>
-</div>
 
-        <!-- Chart 2 -->
+        <!-- Activity Chart -->
         <div class="col-md-6">
             <div class="card shadow">
                 <div class="card-body">
@@ -56,21 +103,9 @@
     </div>
 
 </div>
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <div class="container">
-        <a class="navbar-brand" href="/">Skill Barter</a>
 
-        <div>
-            <a href="/dashboard" class="btn btn-outline-light me-2">Dashboard</a>
-            <a href="/add-skill" class="btn btn-outline-success me-2">Add Skill</a>
-            <a href="/view-skills" class="btn btn-outline-primary me-2">View Skills</a>
-            <a href="/logout" class="btn btn-outline-danger">Logout</a>
-        </div>
-    </div>
-</nav>
-
+<!-- ✅ CHART SCRIPT -->
 <script>
-    // Skills Chart
     const skillsChart = new Chart(document.getElementById('skillsChart'), {
         type: 'bar',
         data: {
@@ -83,7 +118,6 @@
         }
     });
 
-    // Activity Chart
     const activityChart = new Chart(document.getElementById('activityChart'), {
         type: 'pie',
         data: {

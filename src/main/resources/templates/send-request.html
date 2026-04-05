@@ -11,11 +11,13 @@
 
     <div class="card shadow p-4">
         <h2 class="mb-4">Send Skill Request</h2>
-
-        <form action="/send-request" method="post">
+        
+            <form action="/requests/send" method="post">
             <input type="text" name="skill" class="form-control mb-3" placeholder="Enter Skill">
 
-            <button class="btn btn-primary">Send Request</button>
+            <button type="submit" class="btn btn-primary">
+    Send Request
+</button>
         </form>
 
         <a href="/dashboard" class="btn btn-link mt-3">Back to Dashboard</a>

@@ -20,28 +20,41 @@ public class LoginController {
         return "login";
     }
 
-    // 👉 LOGIN LOGIC
     @PostMapping("/login")
-    public String login(String email, String password, HttpSession session) {
+    public String login(@RequestParam String email,
+                        @RequestParam String password,
+                        HttpSession session) {
 
         User user = userService.login(email, password);
 
         if (user != null) {
+
             session.setAttribute("loggedUser", user);
 
             if ("ADMIN".equals(user.getRole())) {
-                return "redirect:/admin-dashboard";
+                return "redirect:/admin";
+            } else {
+                return "redirect:/dashboard";
             }
-            return "redirect:/dashboard";
         }
 
-        return "redirect:/login?error=true";
+        return "login"; // invalid login
     }
 
-    // 👉 LOGOUT
     @GetMapping("/logout")
     public String logout(HttpSession session) {
         session.invalidate();
         return "redirect:/login";
+    }
+    @GetMapping("/admin")
+    public String adminDashboard(HttpSession session) {
+
+        User user = (User) session.getAttribute("loggedUser");
+
+        if (user == null || !"ADMIN".equals(user.getRole())) {
+            return "redirect:/dashboard";
+        }
+
+        return "admin";
     }
 }

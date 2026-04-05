@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Chat</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body class="bg-light">
+<div id="chat"></div>
+
+<input id="message" class="form-control mb-2">
+<button onclick="sendMessage()" class="btn btn-primary">Send</button>
+
+<div class="container mt-5">
+
+    <div class="card p-4 shadow">
+
+        <h3>💬 Chat</h3>
+
+        <div class="border p-3 mb-3" style="height:200px; overflow-y:scroll;">
+            <p><b>User:</b> Hello!</p>
+            <p><b>You:</b> Hi, let's schedule the session.</p>
+        </div>
+
+        <form>
+            <input type="text" class="form-control mb-2" placeholder="Type message...">
+            <button class="btn btn-primary">Send</button>
+        </form>
+        
+
+    </div>
+
+</div>
+
+</body>
+<script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/stompjs/lib/stomp.min.js"></script>
+
+<script>
+let stompClient = null;
+
+function connect() {
+    const socket = new SockJS('/chat');
+    stompClient = Stomp.over(socket);
+
+    stompClient.connect({}, function () {
+        stompClient.subscribe('/topic/messages', function (msg) {
+            let m = JSON.parse(msg.body);
+            document.getElementById("chat").innerHTML += 
+                "<p><b>" + m.sender + ":</b> " + m.content + "</p>";
+        });
+    });
+}
+
+function sendMessage() {
+    const msg = document.getElementById("message").value;
+
+    stompClient.send("/app/sendMessage", {}, JSON.stringify({
+        sender: "User",
+        content: msg
+    }));
+}
+
+connect();
+</script>
+</html>

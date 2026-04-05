@@ -18,6 +18,7 @@ public class BarterRequest {
     private String skillRequested;
 
     private String status;
+    private String skill;
 
     // Getters and Setters
 
@@ -35,4 +36,11 @@ public class BarterRequest {
 
     public String getStatus() { return status; }
     public void setStatus(String status) { this.status = status; }
+    public String getSkill() {
+        return skill;
+    }
+
+    public void setSkill(String skill) {
+        this.skill = skill;
+    }
 }

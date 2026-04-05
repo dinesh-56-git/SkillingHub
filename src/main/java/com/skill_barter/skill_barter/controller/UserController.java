@@ -4,6 +4,7 @@ import com.skill_barter.skill_barter.entity.User;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.ui.Model;
 import com.skill_barter.skill_barter.service.UserService;
+import com.skill_barter.skill_barter.service.NotificationService;
 import com.skill_barter.skill_barter.service.SkillService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,9 @@ public class UserController {
 
     @Autowired
     private SkillService skillService; 
+    @Autowired
+    private NotificationService notificationService;
+
     
 
     @GetMapping("/register")
@@ -44,17 +48,68 @@ public class UserController {
 
         User user = (User) session.getAttribute("loggedUser");
 
-        if (user != null) {
-            model.addAttribute("username", user.getName());
+        if (user == null) {
+            return "redirect:/login";
         }
 
-        model.addAttribute("skillCount", skillService.getSkillCount());
-        model.addAttribute("userCount", userService.getUserCount());
+        model.addAttribute("user", user);
+
+        // 🔥 ADD NOTIFICATIONS
+        model.addAttribute("notifications",
+            notificationService.getUserNotifications(user));
 
         return "dashboard";
     }
     @GetMapping("/")
     public String home() {
         return "index";
+    }
+    @GetMapping("/profile")
+    public String profile(Model model, HttpSession session) {
+
+        User user = (User) session.getAttribute("loggedUser");
+
+        if (user == null) {
+            return "redirect:/login";
+        }
+
+        model.addAttribute("user", user);
+        return "profile";
+    }
+ 
+    @GetMapping("/edit-profile")
+    public String editProfile(Model model, HttpSession session) {
+
+        User user = (User) session.getAttribute("loggedUser");
+
+        if (user == null) {
+            return "redirect:/login";
+        }
+
+        model.addAttribute("user", user);
+        return "edit-profile";
+    }
+    @PostMapping("/update-profile")
+    public String updateProfile(@ModelAttribute User updatedUser, HttpSession session) {
+
+        User sessionUser = (User) session.getAttribute("loggedUser");
+
+        if (sessionUser == null) {
+            return "redirect:/login";
+        }
+
+        // keep same ID
+        updatedUser.setId(sessionUser.getId());
+
+        // keep credits & trust score
+        updatedUser.setCredits(sessionUser.getCredits());
+        updatedUser.setTrustScore(sessionUser.getTrustScore());
+
+        userService.saveUser(updatedUser);
+
+        // update session
+        session.setAttribute("loggedUser", updatedUser);
+
+        return "redirect:/profile";
     }
 }

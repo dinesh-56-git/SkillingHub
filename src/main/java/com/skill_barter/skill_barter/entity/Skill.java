@@ -10,6 +10,8 @@ public class Skill {
     private Long id;
 
     private String skillName;
+    @ManyToOne
+    private User user;
 
     // Getters and Setters
 
@@ -18,4 +20,12 @@ public class Skill {
 
     public String getSkillName() { return skillName; }
     public void setSkillName(String skillName) { this.skillName = skillName; }
+   
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
 }

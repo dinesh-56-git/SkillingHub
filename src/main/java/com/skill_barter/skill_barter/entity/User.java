@@ -17,9 +17,10 @@ public class User {
     private String name;
     private String email;
     private String password;
-    private String role; // USER / ADMIN
+    private String role; 
 
     private int timeCredits;
+    private int credits;
     private double trustScore;
 
     // Getters and Setters
@@ -47,5 +48,12 @@ public class User {
 
     public void setRole(String role) {
         this.role = role;
+    }
+    public int getCredits() {
+        return credits;
+    }
+
+    public void setCredits(int credits) {
+        this.credits = credits;
     }
 }

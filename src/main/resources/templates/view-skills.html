@@ -6,8 +6,24 @@
     <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
+
 <body class="bg-light">
 
+<!-- ✅ NAVBAR -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container">
+        <a class="navbar-brand" href="/">Skill Exchange Platform</a>
+
+        <div>
+            <a href="/dashboard" class="btn btn-outline-light me-2">Dashboard</a>
+            <a href="/add-skill" class="btn btn-outline-success me-2">Add Skill</a>
+            <a href="/view-skills" class="btn btn-outline-primary me-2">View Skills</a>
+            <a href="/logout" class="btn btn-outline-danger">Logout</a>
+        </div>
+    </div>
+</nav>
+
+<!-- ✅ MAIN CONTENT -->
 <div class="container mt-5">
 
     <h2 class="text-center mb-4">All Skills</h2>
@@ -20,15 +36,25 @@
                     <tr>
                         <th>ID</th>
                         <th>Skill Name</th>
+                        <th>Action</th>
                     </tr>
                 </thead>
 
                 <tbody>
+                    <!-- ✅ ONLY ONE LOOP -->
                     <tr th:each="skill : ${skills}">
                         <td th:text="${skill.id}"></td>
                         <td th:text="${skill.skillName}"></td>
+
+                        <td>
+                            <a th:href="@{/delete-skill/{id}(id=${skill.id})}" 
+                               class="btn btn-danger btn-sm">
+                               Delete
+                            </a>
+                        </td>
                     </tr>
                 </tbody>
+
             </table>
 
         </div>
@@ -37,38 +63,8 @@
     <div class="text-center mt-3">
         <a href="/dashboard" class="btn btn-primary">Back to Dashboard</a>
     </div>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <div class="container">
-        <a class="navbar-brand" href="/">Skill Barter</a>
-
-        <div>
-            <a href="/dashboard" class="btn btn-outline-light me-2">Dashboard</a>
-            <a href="/add-skill" class="btn btn-outline-success me-2">Add Skill</a>
-            <a href="/view-skills" class="btn btn-outline-primary me-2">View Skills</a>
-            <a href="/logout" class="btn btn-outline-danger">Logout</a>
-        </div>
-    </div>
-</nav>
-<div class="container mt-5">
-
-    <h3>All Skills</h3>
-
-    <table class="table table-bordered">
-        <tr>
-            <th>ID</th>
-            <th>Skill Name</th>
-        </tr>
-
-        <tr th:each="s : ${skills}">
-            <td th:text="${s.id}"></td>
-            <td th:text="${s.skillName}"></td>
-        </tr>
-    </table>
 
 </div>
-
-</div>
-
 
 </body>
 </html>
